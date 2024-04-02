@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}
+    Home
+{% endblock page_title %}
+
+{% block content %}
+    <div class="container mx-auto pb-10">
+        <div style="margin-left: 117px">
+            <p class="text-3xl py-5">Рекомендованные Мероприятия</p>
+        </div>
+        <div class="flex flex-wrap justify-center">
+            {% for rec_event in rating_events %}
+                {% include 'mixins/event/event_card.html' with event=rec_event %}
+            {% endfor %}
+        </div>
+        <div style="margin-left: 117px">
+            <p class="text-3xl py-5">Все Мероприятия</p>
+        </div>
+        <div>
+            <div class="flex flex-wrap justify-center">
+                {% for event in events %}
+                    {% include 'mixins/event/event_card.html' with event=event %}
+                {% endfor %}
+            </div>
+        </div>
+        <a href="{% url 'events:list' %}" class="">
+            <div class="text-center -mt-3 border border-cyan-500 rounded-lg w-1/2 h-16 mx-auto bg-cyan-500 shadow-lg shadow-cyan-500/50 ">
+                <p class="text-2xl mt-3 text-white">Все Мероприятия</p>
+            </div>
+        </a>
+    </div>
+
+{% endblock %}

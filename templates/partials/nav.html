@@ -1,0 +1,11 @@
+<ul class="flex items-center text-sm font-medium h-full">
+    {% if user.is_authenticated %}
+{#        <li class="nav_link"><a href="{% url 'lists:see-favs' %}">Favs ({{user.list.rooms.count}})</a></li>#}
+{#        <li class="nav_link"><a href="{% url 'reservations:list-guest' %}">Reservations</a></li>#}
+        <li class="ml-6 border-b-2 border-white h-full flex items-center hover:border-gray-600"><a href="{{user.get_absolute_url}}">Profile</a></li>
+        <li class="ml-6 border-b-2 border-white h-full flex items-center hover:border-gray-600"><a href="{% url "users:logout" %}">Log out</a></li>
+    {% else %}
+        <li class="ml-6 border-b-2 border-white h-full flex items-center hover:border-gray-600"><a href="{% url "users:login" %}">Log in</a></li>
+        <li class="ml-6 border-b-2 border-white h-full flex items-center hover:border-gray-600"><a href="{% url "users:signup" %}">Sign up</a></li>
+    {% endif %}
+</ul>

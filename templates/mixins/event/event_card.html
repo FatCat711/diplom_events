@@ -1,0 +1,37 @@
+{% load static %}
+
+<div style="height: 490px" class="w-1/5 overflow-hidden mb-10 mx-3 rounded-lg border border-cyan-500 shadow-lg">
+    <div>
+        <a href="{% url 'events:detail' event.pk %}">
+            <div class="w-full h-64 bg-center bg-cover" style="background-image: url({{ event.preview.url }})"></div>
+        </a>
+    </div>
+    <div style="height: 14rem" class="ml-2 mb-2 flex flex-col">
+        <div class="flex flex-wrap">
+            {% for tag in event.tags.all %}
+            <div class="border border-cyan-700 rounded-xl mt-2 mb-1 px-2 mr-1">
+                {{tag.title}}
+            </div>
+            {% endfor %}
+        </div>
+        <div>
+        <h4 class="block mt-1">
+            {{ event.title }}
+        </h4>
+        </div>
+        <div style="" class="mt-auto text-sm">
+            <div class="text-gray-500">
+                {{event.time_start|date:"j F, G:i"}} - {{event.time_end|date:"j F, G:i"}}
+            </div>
+            <div class="flex flex-row">
+                <span>
+                    {{event.city}}
+                </span>
+                <img class="w-5 h-5 ml-auto" src="{% static 'ppl.png' %}" alt=""/>
+                <span class="ml-1 mr-3">
+                    {{ event.participants.count }}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

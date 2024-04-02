@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block page_title %}
+    Events
+{% endblock page_title %}
+
+{% block content %}
+
+    <div class="container mx-auto mt-8 pt-5">
+
+        <div class="flex flex-wrap mb-10 ml-16 pl-28">
+            {% for event in events  %}
+                {% include 'mixins/event/event_card.html' with event=event %}
+            {% endfor %}
+        </div>
+        <div class="flex items-center justify-center mx-auto container pb-10 -mt-6">
+            {% if page_obj.has_previous %}
+                <a href="?page={{page_obj.previous_page_number}}" class="text-cyan-400">
+                    <i class="fas fa-arrow-left fa-lg"></i>
+                </a>
+            {% endif %}
+
+            <span class="mx-3 font-medium text-lg">
+                {% blocktrans with current_page=page_obj.number total_pages=page_obj.paginator.num_pages %}Страница {{current_page}} из {{total_pages}}{% endblocktrans %}
+            </span>
+
+            {% if page_obj.has_next  %}
+                <a href="?page={{page_obj.next_page_number}}" class="text-cyan-400">
+                    <i class="fas fa-arrow-right fa-lg"></i>
+                </a>
+            {% endif %}
+
+        </div>
+
+    </div>
+{% endblock content %}
