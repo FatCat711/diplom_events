@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User
+from .models import User, OrgForm
 
 
 @admin.register(User)
@@ -30,3 +30,22 @@ class CustomUserAdmin(UserAdmin):
         "is_staff",
         "is_superuser",
     ]
+
+
+@admin.register(OrgForm)
+class TagAdmin(admin.ModelAdmin):
+    list_display = [
+        "pk",
+        "status",
+        "name",
+        "surname"
+    ]
+
+    list_filter = (
+        "status",
+    )
+
+    search_fields = (
+        "name",
+        "surname",
+    )

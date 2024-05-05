@@ -58,3 +58,18 @@ class SignUpForm(forms.ModelForm):
         user.username = email
         user.set_password(password)
         user.save()
+
+
+class CreateOrgFormForm(forms.ModelForm):
+    class Meta:
+        model = models.OrgForm
+        fields = (
+            "organization",
+            "name",
+            "last_surname",
+            "surname",
+        )
+
+    def save(self, *args, **kwargs):
+        org_form = super().save(commit=False)
+        return org_form

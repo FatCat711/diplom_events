@@ -9,15 +9,17 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import FormView, UpdateView
 
-from .models import User
+from .models import User, OrgForm
 from . import forms, mixins
 
 
 class ProfileView(View):
     def get(self, request: Request, pk):
         user = User.objects.get(id=pk)
+        org_form = OrgForm.objects.get_or_none(user=user)
         return render(request, "users/user_detail.html", context={
             "user": user,
+            "org_form": org_form,
         })
 
 
@@ -126,3 +128,19 @@ class UpdatePasswordView(
 
     def get_success_url(self):
         return self.request.user.get_absolute_url()
+
+
+class CreateOrgFormView(mixins.LoggedInOnlyView, FormView):
+
+    form_class = forms.CreateOrgFormForm
+    template_name = "mixins/org/org_form_create.html"
+
+    def form_valid(self, form):
+        user = User.objects.get(pk=self.request.user.pk)
+        if user.org_form.exists():
+            if user.org_form.status != "canceled":
+                return redirect(reverse("users:profile", kwargs={"pk": user.pk}))
+        org_form = form.save()
+        org_form.user = user
+        org_form.save()
+        return redirect(reverse("users:profile", kwargs={"pk": user.pk}))

@@ -1,44 +1,14 @@
 from django import forms
+
+from bootstrap_datepicker_plus.widgets import DateTimePickerInput
+
 from . import models
 
 
-# class SearchForm(forms.Form):
-#
-#     city = forms.CharField(initial="Anywhere")
-#     room_type = forms.ModelChoiceField(
-#         required=False, empty_label="Any kind", queryset=models.RoomType.objects.all()
-#     )
-#     price = forms.IntegerField(required=False)
-#     guests = forms.IntegerField(required=False)
-#     bedrooms = forms.IntegerField(required=False)
-#     beds = forms.IntegerField(required=False)
-#     baths = forms.IntegerField(required=False)
-#     instant_book = forms.BooleanField(required=False)
-#     superhost = forms.BooleanField(required=False)
-#     amenities = forms.ModelMultipleChoiceField(
-#         required=False,
-#         queryset=models.Amenity.objects.all(),
-#         widget=forms.CheckboxSelectMultiple,
-#     )
-#     facilities = forms.ModelMultipleChoiceField(
-#         required=False,
-#         queryset=models.Facility.objects.all(),
-#         widget=forms.CheckboxSelectMultiple,
-#     )
-#
-#
-# class CreatePhotoForm(forms.ModelForm):
-#     class Meta:
-#         model = models.Photo
-#         fields = ("caption", "file")
-#
-#     def save(self, pk, *args, **kwargs):
-#         photo = super().save(commit=False)
-#         room = models.Room.objects.get(pk=pk)
-#         photo.room = room
-#         photo.save()
-#
-#
+class SearchForm(forms.Form):
+    title = forms.CharField(initial="")
+
+
 class CreateRoomForm(forms.ModelForm):
     class Meta:
         model = models.Event
@@ -54,6 +24,26 @@ class CreateRoomForm(forms.ModelForm):
             "tags",
         )
 
+        widgets = {
+            "time_start": forms.DateTimeInput(),
+            "time_end": forms.DateTimeInput(),
+        }
+
     def save(self, *args, **kwargs):
         event = super().save(commit=False)
         return event
+
+
+class CreateReviewForm(forms.ModelForm):
+    rating = forms.IntegerField(max_value=5, min_value=1)
+
+    class Meta:
+        model = models.EventUserRating
+        fields = (
+            "text",
+            "rating",
+        )
+
+    def save(self):
+        review = super().save(commit=False)
+        return review

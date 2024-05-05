@@ -3,7 +3,9 @@
 <div style="height: 490px" class="w-1/5 overflow-hidden mb-10 mx-3 rounded-lg border border-cyan-500 shadow-lg">
     <div>
         <a href="{% url 'events:detail' event.pk %}">
+            {% if event.preview %}
             <div class="w-full h-64 bg-center bg-cover" style="background-image: url({{ event.preview.url }})"></div>
+            {% endif %}
         </a>
     </div>
     <div style="height: 14rem" class="ml-2 mb-2 flex flex-col">

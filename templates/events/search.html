@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block page_title %}Search{% endblock %}
+
+{% block content %}
+  {% if query %}
+      <div class="flex flex-wrap justify-center">
+    {% for event in events %}
+      {% include 'mixins/event/event_card.html' with event=event %}
+    {% empty %}
+      <p>There are no results for your query.</p>
+    {% endfor %}
+      </div>
+  {% endif %}
+{% endblock %}

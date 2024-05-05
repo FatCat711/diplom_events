@@ -43,11 +43,12 @@ class Tag(core_models.TimeStampedModel):
 
 class EventUserRating(models.Model):
     event = models.ForeignKey(
-        Event, on_delete=models.CASCADE, related_name="reviews")
+        Event, on_delete=models.CASCADE, related_name="reviews", null=True)
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="reviews")
+        User, on_delete=models.CASCADE, related_name="reviews", null=True)
     rating = models.IntegerField(default=1)
     text = models.TextField(blank=True, null=True)
+    show = models.BooleanField(default=False)
 
     def __str__(self):
         return f"user: {self.user.pk, self.user.username} event: {self.event.pk}"

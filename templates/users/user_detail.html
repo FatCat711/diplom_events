@@ -20,15 +20,30 @@
 
                 <span class="text-lg mb-5">{{user.bio|linebreaks}}</span>
                 {% if user == request.user %}
-                    <a href="{% url 'users:update' %}" class="btn-link">Изменить настройки профиля
+                    <a href="{% url 'users:update' %}" class="btn-link">
+                        Изменить настройки профиля
                     </a>
-                    <a href="{% url 'events:create' %}" class="btn-link mt-3">Создать мероприятие
-                    </a>
+
+                    {% if user.superhost %}
+                        <a href="{% url 'events:create' %}" class="btn-link mt-3">
+                            Создать мероприятие
+                        </a>
+                    {% endif %}
+                    {% if org_form.status == "canceled" or not org_form %}
+                        <a href="{% url 'users:org_create' %}" class="btn-link mt-3">
+                            Стать организатором
+                        </a>
+                    {% endif %}
+                    {% if org_form.status == "pending" %}
+                        <a href="#" class="btn-link mt-3">
+                            Заявка организатора рассматривается
+                        </a>
+                    {% endif %}
                 {% endif %}
 
             </div>
             {% if user.events.count > 0 %}
-                <h3 class="mb-12 text-2xl text-center">{{user.first_name}}'s Events</h3>
+                <h3 class="mb-12 text-2xl text-center">Мероприятия в которых участвовал {{user.first_name}}</h3>
                 <div class="container mx-auto pb-10 ">
                     <div class="flex flex-wrap mb-10">
                         {% for event in user.events.all  %}
