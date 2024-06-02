@@ -26,9 +26,13 @@
                 {{event.time_start|date:"j F, G:i"}} - {{event.time_end|date:"j F, G:i"}}
             </div>
             <div class="flex flex-row">
-                <span>
-                    {{event.city}}
-                </span>
+                {% if event.online %}
+                    Онлайн
+                {% else %}
+                    <span>
+                        {{event.city}}
+                    </span>
+                {% endif %}
                 <img class="w-5 h-5 ml-auto" src="{% static 'ppl.png' %}" alt=""/>
                 <span class="ml-1 mr-3">
                     {{ event.participants.count }}

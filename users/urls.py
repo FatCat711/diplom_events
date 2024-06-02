@@ -13,3 +13,4 @@ urlpatterns = [
     path("update-password/", views.UpdatePasswordView.as_view(), name="password"),
     path("org/", views.CreateOrgFormView.as_view(), name="org_create"),
 ]
+

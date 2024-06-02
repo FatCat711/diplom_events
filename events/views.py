@@ -1,7 +1,6 @@
 import datetime
 
 from django.utils import timezone
-from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -24,10 +23,10 @@ class EventDetailView(View):
             user = User.objects.get(pk=request.user.pk)
             if user in event.participants.all():
                 flag = True
+            if event.time_end < timezone.now() and event in user.events.all():
+                review_flag = True
         except Exception:
             pass
-        if event.time_end < timezone.now() and event in user.events.all():
-            review_flag = True
         return render(request, "events/detail.html", context={
             "event": event,
             "flag": flag,
@@ -155,4 +154,16 @@ class SearchView(View):
                                   "form": form,
                               })
         else:
+            return redirect(reverse("core:home"))
+
+
+class EventDelete(View):
+    def get(self, request, pk):
+        try:
+            user = User.objects.get(pk=request.user.pk)
+            event = models.Event.objects.get(pk=pk)
+            if event.host.pk == user.pk:
+                event.delete()
+            return redirect(reverse("core:home"))
+        except Exception:
             return redirect(reverse("core:home"))

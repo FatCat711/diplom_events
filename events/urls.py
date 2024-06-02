@@ -10,4 +10,5 @@ urlpatterns = [
     path('event/create/', views.CreateEventView.as_view(), name="create"),
     path('event/search/', views.SearchView.as_view(), name="search"),
     path('event/review/<int:pk>', views.create_review, name="create_review"),
+    path('event/<int:pk>/delete', views.EventDelete.as_view(), name="delete"),
 ]

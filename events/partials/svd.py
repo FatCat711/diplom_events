@@ -2,13 +2,10 @@ from surprise import Dataset
 from surprise import Reader
 from surprise.model_selection import train_test_split
 from surprise import SVD
-from surprise import accuracy
 import pandas as pd
 import datetime
-from django.utils import timezone
 
 from events import models
-from users import models as user_models
 
 
 class SvdRec:

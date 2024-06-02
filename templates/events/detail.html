@@ -40,7 +40,7 @@
                     </a>
                 </div>
             </div>
-            <div class="flex flex-wrap -mt-12">
+            <div class="flex flex-wrap -mt-8">
                 {% for tag in event.tags.all %}
                 <div class="border border-cyan-700 rounded-xl mt-2 mb-1 px-2 mr-1">
                     {{tag.title}}
@@ -97,6 +97,7 @@
             <div class="w-full">
                 {% if event.host == user %}
                     <a href="{% url 'events:update' event.pk %}" class="btn-link block">Изменить мероприятие</a>
+                    <a href="{% url 'events:delete' event.pk %}" class="mt-2 bg-red-500 btn-link block">Удалить мероприятие</a>
                 {% else %}
                     {% if flag %}
                         <a href="{% url 'events:reg' event.pk %}" class="btn-link block">Отменить запись</a>
