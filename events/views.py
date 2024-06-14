@@ -41,7 +41,6 @@ def event_register(request, pk):
         user = User.objects.get(pk=request.user.pk)
         if user not in event.participants.all():
             event.participants.add(user)
-            event.save()
             rating, created = models.EventUserRating.objects.get_or_create(user=user, event=event)
             if created:
                 rating.rating = 5
@@ -49,7 +48,6 @@ def event_register(request, pk):
                 rating.save()
         else:
             event.participants.remove(user)
-            event.save()
             rating, created = models.EventUserRating.objects.get_or_create(user=user, event=event)
             if not created:
                 rating.delete()
