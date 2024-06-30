@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
 from django.views.generic import ListView, UpdateView, FormView
+from .partials import mail
 
 from . import forms
 from . import models
@@ -87,6 +88,7 @@ class EditEventView(UpdateView):
             raise Http404()
         return room
 
+from events.tasks import send_review_email_task
 
 class CreateEventView(user_mixins.LoggedInOnlyView, FormView):
     form_class = forms.CreateRoomForm
@@ -98,6 +100,7 @@ class CreateEventView(user_mixins.LoggedInOnlyView, FormView):
         event.save()
         event.participants.add(User.objects.get(pk=self.request.user.pk))
         form.save_m2m()
+        send_review_email_task.delay(event.host.email, event.title)
         return redirect(reverse("events:detail", kwargs={"pk": event.pk}))
 
 

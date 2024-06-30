@@ -37,7 +37,7 @@ class Event(core_models.TimeStampedModel):
         return reverse("events:detail", kwargs={"pk": self.pk})
 
     def save(self, *args, **kwargs):
-        ans = send_mail(self.host.username, self.title)
+        # ans = send_mail(self.host.username, self.title)
         super().save(*args, **kwargs)
 
     def __str__(self):
